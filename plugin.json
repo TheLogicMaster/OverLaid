@@ -1,0 +1,10 @@
+{
+  "name": "OverLaid",
+  "author": "Justin Marentette",
+  "flags": [],
+  "publish": {
+    "tags": ["utility", "custom-overlay"],
+    "description": "A Decky plugin for creating custom game overlays",
+    "image": "https://raw.githubusercontent.com/TheLogicMaster/OverLaid/main/assets/screenshot.png"
+  }
+}
