@@ -5,7 +5,11 @@ import {
     PanelSection,
     PanelSectionRow,
     showModal,
-    staticClasses, ConfirmModal, ColorPickerModal, Focusable, DialogButton,
+    staticClasses,
+    ConfirmModal,
+    ColorPickerModal,
+    Focusable,
+    DialogButton
 } from "decky-frontend-lib"
 import {createRef, FC, useEffect, useReducer, useState} from "react"
 import {Overlay, ServerAPIProviderType} from "./overlaid"
@@ -72,7 +76,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                 <div className={staticClasses.Text}>
                     {msg}
                 </div>
-            </ConfirmModal>, window
+            </ConfirmModal>
         )
     }
 
@@ -205,7 +209,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                     await reload()
                                     changeToNamedOverlayIfPresent(overlayName)
                                 })()}
-                            />, window)
+                            />)
                         }}>
                             New Overlay
                         </DialogButton>
@@ -254,7 +258,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                             <div className={staticClasses.Title} style={{flexDirection: "column", boxShadow: "unset"}}>
                                                 Save Overlay?
                                             </div>
-                                        </ConfirmModal>, window
+                                        </ConfirmModal>
                                     )
                                 }}>
                                     Save Overlay
@@ -276,7 +280,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                                 Delete Overlay
                                             </div>
                                             Are you sure that you want to delete this overlay? This cannot be undone.
-                                        </ConfirmModal>, window
+                                        </ConfirmModal>
                                     )
                                 }}>
                                     Delete Overlay
@@ -300,7 +304,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                             bg_color: [0, 0, 0, 0]
                                         })
                                         forceUpdate()
-                                    }}/>, window)
+                                    }}/>)
                                 }}>
                                     Add Widget
                                 </DialogButton>
@@ -341,7 +345,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                     showModal(<RepositionWidgetModal position={widget} onReposition={position => {
                                         Object.assign(widget, position)
                                         forceUpdate()
-                                    }}/>, window)
+                                    }}/>)
                                 }}>
                                     Reposition
                                 </DialogButton>
@@ -367,7 +371,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                                 onConfirm={hsla => {
                                                     widget.color = hslaToRgb(hsla)
                                                     forceUpdate()
-                                                }}/>, window)
+                                                }}/>)
                                         }}>
                                         Color
                                     </DialogButton>
@@ -384,7 +388,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                                 onConfirm={hsla => {
                                                     widget.bg_color = hslaToRgb(hsla)
                                                     forceUpdate()
-                                                }}/>, window)
+                                                }}/>)
                                         }}>
                                         BG Color
                                     </DialogButton>
@@ -404,7 +408,7 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                                 Delete Widget
                                             </div>
                                             Are you sure you want to delete this widget?
-                                        </ConfirmModal>, window
+                                        </ConfirmModal>
                                     )
                                 }}>
                                     Delete Widget
