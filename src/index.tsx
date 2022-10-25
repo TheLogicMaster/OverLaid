@@ -11,7 +11,7 @@ import {
     useQuickAccessVisible
 } from "decky-frontend-lib"
 import {useEffect, VFC, useState, FC} from "react"
-import {FaShip} from "react-icons/fa"
+import {FaBuffer} from "react-icons/fa"
 import AboutPage from "./AboutPage"
 import ManagePage from "./ManagePage"
 
@@ -146,7 +146,7 @@ export default definePlugin((serverApi: ServerAPI) => {
     return {
         title: <div className={staticClasses.Title}>OverLaid</div>,
         content: <Content serverAPI={serverApi}/>,
-        icon: <FaShip/>,
+        icon: <FaBuffer/>,
         alwaysRender: true,
         onDismount() {
             clearInterval(timer)
