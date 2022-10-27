@@ -8,7 +8,6 @@ import {
     ToggleField,
     Router,
     Tabs,
-    useQuickAccessVisible
 } from "decky-frontend-lib"
 import {useEffect, VFC, useState, FC} from "react"
 import {FaBuffer} from "react-icons/fa"
@@ -26,8 +25,6 @@ let overlaysEnabled = false
 const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
     const [enabled, setEnabled] = useState({})
 
-    const qamVisible = useQuickAccessVisible()
-
     const reloadSettings = async () => {
         const result = await serverAPI.callPluginMethod<any, any>('get_settings', {})
         if (result.success)
@@ -36,7 +33,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
 
     useEffect(() => {
         reloadSettings()
-    }, [qamVisible])
+    }, [])
 
     return (
         <>
