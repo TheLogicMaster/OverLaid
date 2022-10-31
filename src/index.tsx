@@ -133,7 +133,8 @@ export default definePlugin((serverApi: ServerAPI) => {
     let shown = false
 
     const timer = setInterval(() => {
-        const shouldShow = overlaysEnabled && window.NotificationStore.BIsUserInGame() && (Router as Router & { m_eOpenSideMenu: number }).m_eOpenSideMenu === 0
+        // @ts-ignore
+        const shouldShow = overlaysEnabled && window.NotificationStore.BIsUserInGame() && Router.WindowStore.m_MainWindowInstance.m_CompositionStateStore.m_eLatestCompositionState === 0
         if (shouldShow != shown) {
             serverApi.callPluginMethod<any, any>(shouldShow ? 'create' : 'destroy', {})
             shown = shouldShow
