@@ -9,7 +9,8 @@ import {
     ConfirmModal,
     ColorPickerModal,
     Focusable,
-    DialogButton
+    DialogButton,
+    Field
 } from "decky-frontend-lib"
 import {createRef, FC, useEffect, useReducer, useState} from "react"
 import {Overlay, ServerAPIProviderType} from "./overlaid"
@@ -231,16 +232,21 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                     <>
                         <PanelSection title="Overlay">
                             <PanelSectionRow>
-                                <form style={{flex: 1, padding: "0px"}}>
+                                <Field
+                                    bottomSeparator="none"
+                                    padding="none"
+                                    childrenLayout="below"
+                                >
                                     <TextField
+                                        style={{margin: 0}}
                                         value={currentOverlay.name}
-                                        label="Name"
+                                        label="Overlay Name"
                                         onChange={event => {
                                             currentOverlay.name = event.target.value
                                             forceUpdate()
                                         }}
                                     />
-                                </form>
+                                </Field>
                             </PanelSectionRow>
 
                             <PanelSectionRow>
@@ -316,15 +322,21 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                         >
                             <PanelSectionRow>
                                 {widget.type === "text" ?
-                                    <form style={{flex: 1, padding: "0px"}}>
+                                    <Field
+                                        bottomSeparator="none"
+                                        padding="none"
+                                        childrenLayout="below"
+                                    >
                                         <TextField
+                                            style={{margin: 0}}
+                                            label="Widget Name"
                                             value={widget.content}
                                             onChange={event => {
                                                 widget.content = event.target.value
                                                 forceUpdate()
                                             }}
                                         />
-                                    </form>
+                                    </Field>
                                     :
                                     <DialogButton
                                         style={{marginTop: "5px", marginBottom: "5px", minHeight: "40px", overflowWrap: "break-word"}}

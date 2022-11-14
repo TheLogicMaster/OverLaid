@@ -89,38 +89,47 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
 let serverAPIRef: ServerAPI | null = null
 
 const OverlaidManageRouter: FC = () => {
-    const [ currentTabRoute, setCurrentTabRoute ] = useState<string>("ManageOverlays")
+    const [currentTabRoute, setCurrentTabRoute] = useState<string>("ManageOverlays")
 
     return (
         <div
             style={{
-            marginTop: "40px",
-            height: "calc(100% - 40px)",
-            background: "#0005",
+                marginTop: "40px",
+                height: "calc(100% - 40px)",
+                background: "#0005",
             }}
         >
             <Tabs
-            // @ts-ignore
-            title="Animation Manager"
-            activeTab={currentTabRoute}
-            onShowTab={(tabID: string) => {
-                setCurrentTabRoute(tabID)
-            }}
-            tabs={[
-                {
-                    title: "Manage Overlays",
-                    content: <ManagePage serverAPI={serverAPIRef as ServerAPI}/>,
-                    id: "ManageOverlays",
-                },
-                {
-                    title: "About OverLaid",
-                    content: <AboutPage />,
-                    id: "AboutOverLaid",
-                }
-            ]}
+                // @ts-ignore
+                title="Animation Manager"
+                activeTab={currentTabRoute}
+                onShowTab={(tabID: string) => {
+                    setCurrentTabRoute(tabID)
+                }}
+                tabs={[
+                    {
+                        title: "Manage Overlays",
+                        content: <ManagePage serverAPI={serverAPIRef as ServerAPI}/>,
+                        id: "ManageOverlays",
+                    },
+                    {
+                        title: "About OverLaid",
+                        content: <AboutPage/>,
+                        id: "AboutOverLaid",
+                    }
+                ]}
             />
         </div>
     )
+}
+
+function getQuickAccessWindow(): Window | null {
+    try {
+        const navTrees = FocusNavController?.m_ActiveContext?.m_rgGamepadNavigationTrees || FocusNavController?.m_rgGamepadNavigationTrees;
+        return navTrees?.find((tree: any) => tree?.id === "QuickAccess-NA")?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
+    } catch (error) {
+        return null;
+    }
 }
 
 export default definePlugin((serverApi: ServerAPI) => {
@@ -130,12 +139,20 @@ export default definePlugin((serverApi: ServerAPI) => {
         exact: true,
     })
 
+    let qamVisible = false
+    const onBlur = () => qamVisible = false
+    const onFocus = () => qamVisible = true
+    const qamWindow = getQuickAccessWindow()
+    if (qamWindow) {
+        qamWindow.addEventListener('blur', onBlur)
+        qamWindow.addEventListener('focus', onFocus)
+    } else
+        console.error('OverLaid: Failed to get Quick Access Menu')
+
     let shown = false
 
     const timer = setInterval(() => {
-        // @ts-ignore
-        const menuClosed = Router.m_eOpenSideMenu !== undefined ? Router.m_eOpenSideMenu === 0 : Router.WindowStore.m_MainWindowInstance.m_CompositionStateStore.m_eLatestCompositionState === 0
-        const shouldShow = overlaysEnabled && window.NotificationStore.BIsUserInGame() && menuClosed
+        const shouldShow = overlaysEnabled && window.NotificationStore.BIsUserInGame() && !qamVisible
         if (shouldShow != shown) {
             serverApi.callPluginMethod<any, any>(shouldShow ? 'create' : 'destroy', {})
             shown = shouldShow
@@ -151,6 +168,10 @@ export default definePlugin((serverApi: ServerAPI) => {
             clearInterval(timer)
             serverApi.callPluginMethod<any, any>('destroy', {})
             serverApi.routerHook.removeRoute("/overlaid-manage")
+            if (qamWindow) {
+                qamWindow.removeEventListener('blur', onBlur)
+                qamWindow.removeEventListener('focus', onFocus)
+            }
         },
     }
 })
