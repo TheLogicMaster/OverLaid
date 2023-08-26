@@ -7,6 +7,7 @@ import {
     staticClasses,
     ToggleField,
     Router,
+    getGamepadNavigationTrees,
     Tabs,
 } from "decky-frontend-lib"
 import {useEffect, VFC, useState, FC} from "react"
@@ -125,8 +126,7 @@ const OverlaidManageRouter: FC = () => {
 
 function getQuickAccessWindow(): Window | null {
     try {
-        const navTrees = FocusNavController?.m_ActiveContext?.m_rgGamepadNavigationTrees || FocusNavController?.m_rgGamepadNavigationTrees;
-        return navTrees?.find((tree: any) => tree?.id === "QuickAccess-NA")?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
+        return getGamepadNavigationTrees()?.find((tree: any) => tree?.id === "QuickAccess-NA")?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
     } catch (error) {
         return null;
     }
@@ -139,7 +139,7 @@ export default definePlugin((serverApi: ServerAPI) => {
         exact: true,
     })
 
-    let qamVisible = false
+    let qamVisible = true
     const onBlur = () => qamVisible = false
     const onFocus = () => qamVisible = true
     const qamWindow = getQuickAccessWindow()

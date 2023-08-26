@@ -1,16 +1,17 @@
 import {
+    ColorPickerModal,
+    ConfirmModal,
+    DialogButton,
     Dropdown,
     DropdownOption,
-    TextField,
+    Field,
+    FileSelectionType,
+    Focusable,
     PanelSection,
     PanelSectionRow,
     showModal,
     staticClasses,
-    ConfirmModal,
-    ColorPickerModal,
-    Focusable,
-    DialogButton,
-    Field
+    TextField
 } from "decky-frontend-lib"
 import {createRef, FC, useEffect, useReducer, useState} from "react"
 import {Overlay, ServerAPIProviderType} from "./overlaid"
@@ -340,8 +341,8 @@ const ManagePage: FC<ServerAPIProviderType> = ({serverAPI}) => {
                                     :
                                     <DialogButton
                                         style={{marginTop: "5px", marginBottom: "5px", minHeight: "40px", overflowWrap: "break-word"}}
-                                        onClick={() => serverAPI.openFilePicker("/home/deck/homebrew/overlays", true,
-                                            new RegExp("^(?:([^.]+\\.(?:png|jpe?g))|([^.]+(?!\\.)))$", "i")).then(result => {
+                                        onClick={() => serverAPI.openFilePickerV2(FileSelectionType.FILE, "/home/deck/homebrew/overlays", true, true,
+                                            undefined, ['png', 'jpg', 'jpeg']).then(result => {
                                             const root = "/home/deck/homebrew/overlays/" + currentOverlay.name + "/"
                                             widget.content = result.realpath.startsWith(root) ? result.realpath.substring(root.length) : result.realpath
                                             forceUpdate()
